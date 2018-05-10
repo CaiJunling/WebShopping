@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Typo</title>
+<title>404</title>
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
@@ -31,9 +31,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--content-->
 	<div class="container">
 	<div class="page">
-		<h1 class="typo1">通知
+		<h1 class="typo1">404
 		   <br/>
-		   <h2 style="text-align:center">当前网络不稳定，请稍后再试<br/>程序员正在疯狂加载中...</h2>
+		   <h2 style="text-align:center">网页找不到<br/>对不起，您请求的页面可能已被移动或删除。</h2>
 		   <a href="index.jsp" >回首页</a>
 		</h1>
 		

@@ -124,7 +124,8 @@
 				<div id="small-dialog" class="mfp-hide">
 				<div class="search-top">
 						
-				<form action="searchClothesByCondition.jsp"/>
+				<form action="ClothesServlet"/>
+				<input type="hidden"   name="method"  value="search"/>
 				<fieldset>
 					<label >类别:</label>
 					<input type="text"  name="clothes_class"/>

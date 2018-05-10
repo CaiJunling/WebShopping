@@ -3,15 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%
-	//在页面加载前，先把这个页面要显示的数据准备好
-	ClothesDAOImp  dao=new ClothesDAOImp();
-
-	Clothes clothesInfo=dao.getClothesInfoByClothesId(Integer.parseInt(request.getParameter("clothes_Id")));
-	
-%>
-
-
+<%  Clothes  clothesInfo=(Clothes)request.getAttribute("clothes"); %>
 <!DOCTYPE html>
 <html>
 <head>

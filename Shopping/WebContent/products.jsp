@@ -1,4 +1,6 @@
 <%@page import="com.oracle.shopping.model.bean.Clothes"%>
+<%@page import="com.oracle.shopping.model.bean.PageBean"%>
+
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -46,7 +48,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<a href="single.jsp?clothes_Id=<%=c.getClothes_Id() %>">
 							<img class="img-responsive" src="<%=c.getClothes_imgId() %>" alt="" />
 						</a>
-						<h3><a href="single.jsp"><%=c.getClothes_class() %></a></h3>
+						<h3><a href="single.jsp?clothes_Id=<%=c.getClothes_Id() %>"><%=c.getClothes_class() %></a></h3>
 						<div class="price">
 								<h5 class="item_price">￥<%=c.getClothes_price() %></h5>
 								<a href="#" class="item_add">加入购物车</a>
@@ -56,8 +58,39 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</div>
 				<%
 					}%>
-			</div>	
+					</br>
+					<!-- 分页代码 -->	
+			<div style="width: 100%;margin: auto;text-align:center;">
+		<%if(request.getAttribute("pageBean")!=null){ %>
+						<a  href="ClothesServlet?method=listClothesByPage&page=1&count=8" >首页</a>
+						<a  href="ClothesServlet?method=listClothesByPage&page=<%=((PageBean)request.getAttribute("pageBean")).getPreviousPage()%>&count=8">上一页</a>
+						<a  href="ClothesServlet?method=listClothesByPage&page=<%=((PageBean)request.getAttribute("pageBean")).getNextPage()%>&count=8">下一页</a>
+						<a  href="ClothesServlet?method=listClothesByPage&page=<%=((PageBean)request.getAttribute("pageBean")).getAllPages()%>&count=8">尾页</a>
+						
+						当前第<%=((PageBean)request.getAttribute("pageBean")).getNowPage()%>页/总共<%=((PageBean)request.getAttribute("pageBean")).getAllPages()%>页，
+						每页<%=((PageBean)request.getAttribute("pageBean")).getEverPageCount()%>条/总共<%=((PageBean)request.getAttribute("pageBean")).getAllCount()%>条,
+						跳到第
+						
+						<select  id="goto"  style="width: 20px;height: 16px; position: relative;top: 6px;"  class="">
+						<%
+							for(int n=1;n<=((PageBean)request.getAttribute("pageBean")).getAllPages();n++)
+							{
+								%>
+								<option value="<%=n%>"><%=n %></option>
+								<%
+							}
+						%>
+						
+						</select>页
+						<%} %>
+						</div>
+						<!-- 分页结束 -->
+			</div>
+				
 		</div>
+		
+		
+		
 		<div class="col-md-3 product-bottom">
 			<!--categories-->
 				<div class=" rsidebar span_1_of_left">
@@ -196,7 +229,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--//content-->
 <!--footer-->
 <%@include file="foot.jsp" %>
-
+<script type="text/javascript">
+			$(document).ready(function(){
+				$("#goto").change(function(){
+					location.href='ClothesServlet?method=listClothesByPage&page='+$(this).val()+'&count=8';//用js发起请求
+				})
+			})
+		</script>
 <!--//footer-->
 </body>
 </html>

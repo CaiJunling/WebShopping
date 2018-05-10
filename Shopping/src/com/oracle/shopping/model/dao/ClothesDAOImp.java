@@ -147,5 +147,53 @@ public class ClothesDAOImp extends BaseDAOImp implements ClothesDAO {
 		return Clothess;
 	}
 	
+	public Clothes parsetResultToClothes(ResultSet rs) {
+		Clothes c = null;
+		try {
+			c = new Clothes();
+			c.setClothes_Id(rs.getInt("clothes_Id"));
+			c.setClothes_class(rs.getString("clothes_class"));
+			c.setClothes_brand(rs.getString("clothes_brand"));
+			c.setClothes_name(rs.getString("clothes_name"));
+			c.setClothes_price(rs.getFloat("clothes_price"));
+			c.setClothes_store(rs.getInt("clothes_store"));
+			c.setClothes_des(rs.getString("clothes_des"));
+			c.setClothes_imgId(rs.getString("clothes_imgId"));
+			c.setClothes_person(rs.getInt("clothes_person"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return c;
+	}
+	@Override
+	public ArrayList<Clothes> listClothesByPage(int page, int count) {
+		ArrayList<Clothes> clothess = new ArrayList<Clothes>();// 定义一个集合存储查询出来的所有车辆信息
+		ResultSet rs = null;
+		try {
+			rs = getSta().executeQuery("select *  from  clothes    limit  "+(page-1)*count+" ,"+count);
+			while (rs.next()) {
+
+				clothess.add(parsetResultToClothes(rs));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		disposeResource(getSta(), rs, getCon());
+		return clothess;
+	}
+	@Override
+	public int getAllCountOfClothess() {
+		int  n=0;
+		ResultSet  rs=null;
+		try {
+			  rs=getSta().executeQuery("select count(clothes_Id)  from  clothes");
+			  rs.next();
+			  n=rs.getInt(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return n;
+	}
+	
 
 }

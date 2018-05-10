@@ -23,6 +23,18 @@ public interface ClothesDAO extends BaseDAO {
 	 */
 	public Clothes  getClothesInfoByClothesId(int clothesId);
 	
+	
+	/**
+	 * 分页查询车辆信息的方法
+	 * @param page   传入的页面
+	 * @param count  传入的每页查看多少条数据
+	 * @return   返回这一页的count条车辆信息
+	 */
+		public ArrayList<Clothes>  listClothesByPage(int page,int count);
+
+
+		public int getAllCountOfClothess();
+		
 	/** 
 	 * 定义一个搜索栏
 	 * 目前不需要

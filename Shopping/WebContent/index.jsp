@@ -3,24 +3,12 @@
 <%@page import="com.oracle.shopping.model.dao.ClothesDAOImp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<!-- 既然jsp一打开就要显示数据库里的车辆信息，也就是说我们这个首页里面应该有一些java代码去查询数据库 -->
-<%
-			//java code	
-			//在jsp里面的java代码里面，你可以不用声明，就直接使用的java对象就是jsp的内置对象
-			//内置对象是不用开发人员自己创建的一些java对象(web容器=tomcat)
-			
-			
-			//out.write("hello world");
-%>
-
-<%
-//在页面没有加载完之前，先把这个页面要显示的数据查出来，准备好，下面才可以用
-ClothesDAOImp  dao=new ClothesDAOImp();
-ArrayList<Clothes> allClothess=dao.listRecentClothessByCount(16);//这里应该调用查询N个车辆信息的方法，把需要显示在首页的车辆信息查询出来
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>>
+<%  if(request.getAttribute("allClothess")==null){
+		request.getRequestDispatcher("ClothesServlet?method=index").forward(request, response);
+} %>
 
 
-%>
 
 
 <!DOCTYPE html>
@@ -96,6 +84,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="content-top1">
 			<!-- 一个商品显示 -->
 			<%
+			ArrayList<Clothes>  allClothess =(ArrayList<Clothes>)request.getAttribute("allClothess");
 			int i=0;
 			for(Clothes c:allClothess) 
 			{
@@ -103,10 +92,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			%>
 				<div class="col-md-3 col-md2">
 					<div class="col-md1 simpleCart_shelfItem">
-						<a href="single.jsp?clothes_Id=<%=c.getClothes_Id() %>">
+						<a href="ClothesServlet?method=single&clothes_Id=<%=c.getClothes_Id() %>">
 							<img class="img-responsive" src="<%=c.getClothes_imgId() %>" alt="" />
 						</a>
-						<h3><a href="single.jsp"><%=c.getClothes_class() %></a></h3>
+						<h3><a href="ClothesServlet?method=single&clothes_Id=<%=c.getClothes_Id() %>"><%=c.getClothes_class() %></a></h3>
 						<div class="price">
 								<h5 class="item_price">￥<%=c.getClothes_price() %></h5>
 								<a href="#" class="item_add">加入购物车</a>
@@ -127,6 +116,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			} %>
 			
 			</div>	
+			<a href="ClothesServlet?method=listClothesByPage&page=1&count=8">查看更多</a>
 				
 		</div>
 	</div>
