@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!--header-->
 <div class="header">
 	<div class="header-top">
@@ -24,9 +25,22 @@
 					<a href="index.html"><img src="images/logo.png" alt=""></a>	
 				</div>
 		
-			<div class="col-sm-4 header-left">		
-					<p class="log"><a href="account.jsp"  >登录</a>
+			<div class="col-sm-4 header-left">
+					<input  id="method" type="hidden" name="method" value="login"/>
+					
+		           <c:if test="${not empty sessionScope.loginedUser }">
+			            <span  >
+			            <a  href="UserServlet?method=loadProfile&userID=${sessionScope.loginedUser.userID }" title="个人中心" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='' ">
+			            <img src="${sessionScope.loginedUser.imageId }" style="width: 40px;height: 40px;border-radius: 10px;"/>
+			            <span style="position: relative;top: 2px;color:#52d0c4;'">${sessionScope.loginedUser.nickName }</span>
+			            </a><br/>
+			            <a  href="UserServlet?method=logoff" style="position: relative;left:8px;color:#b5b3b3;font-size:14px">安全退出</a>
+			            </span>
+		           </c:if>
+		           <c:if test="${empty sessionScope.loginedUser }">
+		                  <p class="log"><a href="account.jsp"  >登录</a>
 						<span>\</span><a  href="register.jsp"  >注册</a></p>
+		           </c:if>
 					<div class="cart box_1">
 						<a href="checkout.jsp">
 						<h3> <div class="total">
@@ -104,7 +118,7 @@
 						  </div>
 						</div>
 			    </li>
-				<li><a  href="typo.jsp">其他</a></li>				
+				<li><a  href="myOrder.jsp">我的订单</a></li>				
 				<li><a class="color6" href="contact.jsp">联系我们</a></li>
 			  </ul> 
 			</div>
@@ -115,7 +129,7 @@
 		        </div>
 		<div class="clearfix"> </div>
 			<!---pop-up-box---->
-					  <script type="text/javascript" src="js/modernizr.custom.min.js"></script>    
+					 
 					<link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
 					<script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
 					
@@ -124,7 +138,7 @@
 				<div id="small-dialog" class="mfp-hide">
 				<div class="search-top">
 						
-				<form action="ClothesServlet"/>
+				<form action="ClothesServlet">
 				<input type="hidden"   name="method"  value="search"/>
 				<fieldset>
 					<label >类别:</label>
@@ -149,6 +163,7 @@
 				</fieldset>	
 				<br/>	
 				<button id="submitSearch"  type="submit" style="width:120px">查找</button>
+				</form>
 					</div>				
 				</div>
 				

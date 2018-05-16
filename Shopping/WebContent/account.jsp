@@ -1,3 +1,4 @@
+<%@page import="com.oracle.shopping.model.bean.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -27,25 +28,43 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <body>
 <!--header-->
 <%@include file="top.jsp" %>
+
 <!--//header-->
 <div class="account">
 	<div class="container">
 		<h1>登录</h1>
 		<div class="account_grid">
 			   <div class="col-md-6 login-right">
-				<form>
-
+				<form id="loginForm" method="post" action="UserServlet">
+				    <input  id="method" type="hidden" name="method" value="login"/>
+				   
 					<span>手机号码</span>
-					<input type="text"> 
+					<input type="text" name="tel"> 
 				
 					<span>密码</span>
-					<input type="text"> 
+					<input type="password" name="password" style="width:96%;height:42px"> 
+					
+					<span>验证码</span>
+					<img id="code" src="CodeServlet"  style="position:relative;top:-1px;border:1px;width:30%;height:42px;" />
+					<input type="text" name="code" style="width:65%"> 
 					<div class="word-in">
 				  		<a class="forgot" href="#">忘记密码？</a>
-				 		 <input type="submit" value="登录">
+				 		 <input  type="submit" value="登录" style="margin-left:50px;">
 				  	</div>
 			    </form>
-			   </div>	
+			   </div>
+			   
+			    <!-- 登陆功能模块JS实现 -->	
+			   <script type="text/javascript">
+			   $(document).ready(function(){
+				   $("#code").click(function(){
+					   $("#code").attr("src",'CodeServlet?time='+new Date())
+				   });
+			   });
+			   //更新验证码
+			   
+			   </script>
+			   	
 			    <div class="col-md-6 login-left">
 			  	 <h4>新用户？</h4>
 				 <p>通过在我们的商店中创建一个帐户，您将能够更快地通过结帐过程，存储多个送货地址，查看和跟踪您的帐户和更多的订单。</p>
@@ -60,5 +79,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <%@include file="foot.jsp" %>
 
 <!--//footer-->
+<%  if(request.getAttribute("loginResultMessage")!=null&&request.getAttribute("loginResultMessage").toString().equals("codeError")) {%>
+	<script type="text/javascript">
+	alert("温馨提示:\r\n验证码填写错误!");
+	</script>
+	<%} else if(request.getAttribute("loginResultMessage")!=null&&request.getAttribute("loginResultMessage").toString().equals("userError")){ %>
+	<script type="text/javascript">
+	alert("温馨提示:\r\n用户名和密码错误!");
+	</script>
+	<%} %> 
 </body>
 </html>

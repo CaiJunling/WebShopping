@@ -3,13 +3,10 @@
 <%@page import="com.oracle.shopping.model.dao.ClothesDAOImp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>>
+<!-- <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>> -->
 <%  if(request.getAttribute("allClothess")==null){
 		request.getRequestDispatcher("ClothesServlet?method=index").forward(request, response);
 } %>
-
-
-
 
 <!DOCTYPE html>
 <html>
@@ -70,7 +67,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 	</div>
 	<div class="col-sm-3 banner-mat">
-		<img class="img-responsive" src="images/7.png" alt="">
+		<img class="img-responsive" src="images/1.png" alt="">
 	</div>
 	<div class="clearfix"> </div>
 </div>
@@ -123,5 +120,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </div>
 <!--//content-->
 <%@include file="foot.jsp" %>
+
 </body>
 </html>

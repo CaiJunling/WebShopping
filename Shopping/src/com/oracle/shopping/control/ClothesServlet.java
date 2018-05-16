@@ -88,7 +88,7 @@ public class ClothesServlet extends HttpServlet {
 		System.out.println("进入了的加载详细信息的方法");
 		//在页面加载前，先把这个页面要显示的数据准备好
 		Clothes clothesInfo=dao.getClothesInfoByClothesId(Integer.parseInt(request.getParameter("clothes_Id")));
-        
+        System.out.println(clothesInfo);
 		request.setAttribute("clothes", clothesInfo);
 		request.getRequestDispatcher("single.jsp").forward(request, response);
 	}
