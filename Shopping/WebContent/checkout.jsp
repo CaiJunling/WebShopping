@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Checkout</title>
+<title>购物车</title>
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
@@ -26,46 +26,48 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <body>
 <!--header-->
-<%@include file="top.jsp" %>
+<c:import url="top.jsp"></c:import>
 <!--//header-->
 <!---->
 <div class="container">
 	<div class="check-out">
-		<h1>Checkout</h1>
+		<h1>购物车</h1>
     	    <table >
-		  <tr>
-			<th>Item</th>
-			<th>Qty</th>		
-			<th>Prices</th>
-			<th>Delery Detials</th>
-			<th>Subtotal</th>
-		  </tr>
-		  <tr>
-			<td class="ring-in"><a href="single.html" class="at-in"><img src="images/ce.jpg" class="img-responsive" alt=""></a>
-			<div class="sed">
-				<h5>Sed ut perspiciatis unde</h5>
-				<p>(At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium) </p>
+		         <tr>
+			        <th>商品信息</th>
+			        <th>数量</th>		
+			        <th>单价</th>
+			        <th>总计</th>
+			        <th>操作</th>
+		         </tr>
+		         <c:if test="${empty  sessionScope.clothess  }">
+					<tr><td colspan="5">购物车里什么都没有呢，去首页逛逛吧~&nbsp;&nbsp;<a href="index.jsp">GO</a></td></tr>
+				 </c:if>
+				<!-- 购物商品列表-->
+				<c:forEach var="s"  items="${sessionScope.clothess }">
+		        <tr>
+			        <td class="ring-in"><a href="single.jsp" class="at-in">
+			           <img src="${s.key.clothes_imgId}" class="img-responsive" alt=""></a>
+			           <div class="sed">
+				       <h5>${s.key.clothes_class}&nbsp;${s.key.clothes_brand}&nbsp;${s.key.clothes_name}</h5>
+				       <p>${s.key.clothes_des}</p>
 			
-			</div>
-			<div class="clearfix"> </div></td>
-			<td class="check"><input type="text" value="1" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}"></td>		
-			<td>$100.00</td>
-			<td>FREE SHIPPING</td>
-			<td>$100.00</td>
-		  </tr>
-		  <tr>
-		  <td class="ring-in"><a href="single.html" class="at-in"><img src="images/ce1.jpg" class="img-responsive" alt=""></a>
-			<div class="sed">
-				<h5>Sed ut perspiciatis unde</h5>
-				<p>(At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium ) </p>
-			</div>
-			<div class="clearfix"> </div></td>
-			<td class="check"><input type="text" value="1" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}"></td>		
-			<td>$200.00</td>
-			<td>FREE SHIPPING</td>
-			<td>$200.00</td>
-		  </tr>
-		  <tr>
+			           </div>
+			           <div class="clearfix"> </div>
+			        </td>
+			        <td class="check">
+			              <input type="text" value="1" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}"></td>		
+			        <td>${s.key.clothes_price}</td>
+			        <td>${s.key.clothes_price}</td>
+			        <td>
+			            <a  href="javascript:deleteCarFromGouwuche('ShoppingCarServlet?method=deleteCar&clothes_Id=${s.key.clothes_Id }')">
+			                                      删除</td>
+		        </tr>
+		        </c:forEach>
+		        
+		        
+		  
+		 <!-- <tr>
 		  <td class="ring-in"><a href="single.html" class="at-in"><img src="images/ce2.jpg" class="img-responsive" alt=""></a>
 			<div class="sed">
 				<h5>Sed ut perspiciatis unde</h5>
@@ -74,14 +76,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="clearfix"> </div></td>
 			<td class="check"><input type="text" value="1" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}"></td>		
 			<td>$150.00</td>
-			<td>FREE SHIPPING</td>
 			<td>$150.00</td>
-		  </tr>
+			<td>删除</td>
+		  </tr> -->
 	</table>
-	<a href="#" class=" to-buy">PROCEED TO BUY</a>
+	<a href="#" class=" to-buy">结算</a>
+	<a href="javascript:deleteAll()" class="to-buy simpleCart_empty">清空购物车</a>
 	<div class="clearfix"> </div>
     </div>
 </div>
 <%@include file="foot.jsp" %>
 </body>
 </html>
+
+<script>
+	function deleteCarFromGouwuche(url){
+		//ShoppingCarServlet?method=deleteCar&carid=${s.key.carId }
+		var  userChoice=window.confirm("您确认要删除这个商品吗?");
+		if(userChoice)
+		{
+			location.href=url;
+		}
+	}
+	function deleteAll(){
+		var  userChoice=window.confirm("您真的要删除所有的商品吗?");
+		if(userChoice)
+		{
+			location.href='ShoppingCarServlet?method=deleteAll';
+		}
+	}
+	
+</script>

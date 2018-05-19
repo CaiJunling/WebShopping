@@ -1,6 +1,9 @@
 package com.oracle.shopping.control;
 
 import java.io.IOException;
+import java.util.UUID;
+
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -8,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jspsmart.upload.File;
+import com.jspsmart.upload.Request;
+import com.jspsmart.upload.SmartUpload;
+import com.jspsmart.upload.SmartUploadException;
 import com.oracle.shopping.model.bean.User;
 import com.oracle.shopping.model.dao.UserDaoImp;
 import com.oracle.shopping.util.MD5;
@@ -18,6 +25,10 @@ import com.oracle.shopping.util.MD5;
 @WebServlet("/UserServlet")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private  ServletConfig  config;
+	public void init(ServletConfig config) throws ServletException {
+		this.config=config;
+	}
 	private UserDaoImp dao;   
     /**
      * @see HttpServlet#HttpServlet()
@@ -33,19 +44,24 @@ public class UserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("进入userservlet");
-		String methodName = request.getParameter("method");
-		switch (methodName) {
-		case "login": {
-			login(request, response);
-			break;
-		}case "loadProfile": {
-			loadProfile(request, response);
-			break;
-		}case "logoff": {
-			logoff(request, response);
-			break;
-		}default:
-			break;
+		if(request.getParameter("method")==null) {//如果是上传文件的方法，则会进入到这个分支
+			updateUserInfo(request,response);
+		}else
+		{
+		  String methodName = request.getParameter("method");
+		  switch (methodName) {
+		  case "login": {
+			  login(request, response);
+			  break;
+		  }case "loadProfile": {
+		  	loadProfile(request, response);
+			  break;
+		  }case "logoff": {
+			  logoff(request, response);
+			  break;
+		  }default:
+			  break;
+		  }
 		}
 	
 	}
@@ -99,8 +115,8 @@ public class UserServlet extends HttpServlet {
 //					passwordCookie.setDomain("www.ershouche.com");
 					
 				}
-//				response.addCookie(usernameCookie);//讲cookie存起来
-//				response.addCookie(passwordCookie);//讲cookie存起来
+				response.addCookie(usernameCookie);//讲cookie存起来
+     			response.addCookie(passwordCookie);//讲cookie存起来
 		}
 			System.out.println("登录成功了");
 			request.getSession().setAttribute("loginedUser", user);// 回话范围内存储用户资料，这样能保证用户在一次绘画中可以保留用户登录的信息
@@ -133,6 +149,94 @@ public class UserServlet extends HttpServlet {
 	protected void logoff(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession().removeAttribute("loginedUser");
 		response.sendRedirect("index.jsp");
+	}
+	
+	/**
+	 * 这是修改更新个人信息的方法
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void updateUserInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//用smartUpload来读取表单上传的文件和表单中的数据
+				SmartUpload su = new SmartUpload();//创建一个smartUpload上传插件的对象
+				// 上传初始化
+				su.initialize(config,request,response);//,读取request，response中的数据到smartupload插件中
+				try {
+					su.upload();//把这个表单提交的数据读取到upload插件里
+					su.save("/images");
+				} catch (SmartUploadException e) {
+					e.printStackTrace();
+				}
+				
+				Request  re=su.getRequest();//如果要读取表单中的文本数据，必须要使用的smartUplod里面的request
+				String sex=	re.getParameter("sex");
+				String  nickName=re.getParameter("nickName");
+				String birthday=re.getParameter("birthday");
+				String tel=re.getParameter("tel");
+				String userID=re.getParameter("userID");
+				String userName=re.getParameter("userName");
+				String imageId=re.getParameter("imageId");
+				/**
+				 * 将表单取到的数据封装成一个user对象
+				 */
+				User user=new User();
+				user.setUserName(userName);
+				user.setUserID(Integer.parseInt(userID));
+				user.setSex(Integer.parseInt(sex));
+				user.setBirthday(Integer.parseInt(birthday));
+				user.setNickName(nickName);
+				user.setTel(tel);
+				
+				File  uploadFile=su.getFiles().getFile(0);//从smartupload插件中读取出页面上传的多个文件对象
+				System.out.println(uploadFile.getFileName());
+				System.out.println("图片长度："+uploadFile.getSize());
+				
+					
+				try {
+					if(uploadFile.getSize()>0){
+						System.out.println("进入更改图片路径了");
+				   
+					  System.out.println(request.getRealPath("/images/uploadFiles/"));
+				//	  UUID //javaUUID ,算法，生成同一空间同一时间下绝不重复的字符串 36 
+					  String  uuidName=UUID.randomUUID().toString();
+					  java.io.File    destFile=new java.io.File(request.getRealPath("/images/uploadFiles/"));
+					  String childPath="";
+					  for(int n=0;n<uuidName.length()-20;n++)
+					  {
+						  childPath+=uuidName.charAt(n)+"/";
+					  }
+					  java.io.File  f=new java.io.File(destFile,childPath);
+					  f.mkdirs();
+					  java.io.File  file=new java.io.File(f,uuidName+"."+uploadFile.getFileExt());
+					
+					  uploadFile.saveAs(file.getAbsolutePath());
+					  String  urlPath=file.getAbsolutePath().substring(file.getAbsolutePath().indexOf("images"),file.getAbsolutePath().length());
+					  System.out.println("图片路径"+urlPath);
+					  boolean url;
+				   
+					
+					  user.setImageId(urlPath);//将新上传的图片的路径设置到user对象中，传到dao里面修改新的头像地址
+					}else{
+						System.out.println("保留原图片:"+imageId);
+						
+						 user.setImageId(imageId);
+					}
+					
+					
+					boolean result=dao.update(user);
+					System.out.println(result);
+					if(result){
+						request.getSession().setAttribute("loginedUser", user);// 回话范围内存储用户资料，这样能保证用户在一次绘画中可以保留用户登录的信息
+						request.getRequestDispatcher("index.jsp").forward(request, response);
+					}else{
+						System.out.println("更新失败！");
+					}
+				} catch (SmartUploadException e) {
+					e.printStackTrace();
+				}
+				
 	}
 
 	/**

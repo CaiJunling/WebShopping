@@ -7,7 +7,7 @@ public class User {
 	private String password;
 	private String tel;
 	private String imageId;
-	private String birthday;
+	private int birthday;
 	private int sex;
 	public User() {
 		super();
@@ -48,10 +48,10 @@ public class User {
 	public void setImageId(String imageId) {
 		this.imageId = imageId;
 	}
-	public String getBirthday() {
+	public int getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(String birthday) {
+	public void setBirthday(int birthday) {
 		this.birthday = birthday;
 	}
 	public int getSex() {

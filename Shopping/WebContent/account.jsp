@@ -39,16 +39,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				    <input  id="method" type="hidden" name="method" value="login"/>
 				   
 					<span>手机号码</span>
-					<input type="text" name="tel"> 
+					<input type="text" name="tel" value="${cookie.tel.value }"> 
 				
 					<span>密码</span>
-					<input type="password" name="password" style="width:96%;height:42px"> 
+					<input type="password" name="password" value="${cookie.password.value }" style="width:96%;height:42px"> 
 					
 					<span>验证码</span>
 					<img id="code" src="CodeServlet"  style="position:relative;top:-1px;border:1px;width:30%;height:42px;" />
 					<input type="text" name="code" style="width:65%"> 
 					<div class="word-in">
 				  		<a class="forgot" href="#">忘记密码？</a>
+				  		  <c:if test="${empty  cookie.tel }">
+				              <input  name="rememberMe" value="rememberMe" type="checkbox" style="position: relative;top: 2px;">记住密码
+			              </c:if>
+			              <c:if test="${not empty  cookie.tel }">
+				              <input  name="rememberMe" value="rememberMe" type="checkbox" checked="checked" style="position: relative;top: 2px;">记住密码
+			              </c:if>
 				 		 <input  type="submit" value="登录" style="margin-left:50px;">
 				  	</div>
 			    </form>

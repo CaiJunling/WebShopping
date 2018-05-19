@@ -41,15 +41,16 @@
 		                  <p class="log"><a href="account.jsp"  >登录</a>
 						<span>\</span><a  href="register.jsp"  >注册</a></p>
 		           </c:if>
+		           <!-- 购物车 -->
 					<div class="cart box_1">
-						<a href="checkout.jsp">
+						<a href="ShoppingCarServlet?method=listAllCars">
 						<h3> <div class="total">
 							<span class="simpleCart_total"></span></div>
 							<img src="images/cart.png" alt=""/></h3>
 						</a>
-						<p><a href="javascript:;" class="simpleCart_empty">清空购物车</a></p>
-
+						<p><a href="javascript:deleteAll()" class="simpleCart_empty">清空购物车</a></p>
 					</div>
+					
 					<div class="clearfix"> </div>
 			</div>
 				<div class="clearfix"> </div>
@@ -183,6 +184,13 @@
 						});
 																						
 						});
+						function deleteAll(){
+							var  userChoice=window.confirm("您真的要删除所有的商品吗?");
+							if(userChoice)
+							{
+								location.href='ShoppingCarServlet?method=deleteAll';
+							}
+						}
 				</script>			
 	<!---->		
 		</div>

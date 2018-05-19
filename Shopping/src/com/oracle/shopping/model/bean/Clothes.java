@@ -12,6 +12,11 @@ public class Clothes {
 	private String clothes_imgId;
 	private int clothes_person;
 	
+	public Clothes(int clothes_Id){
+		super();
+		this.clothes_Id = clothes_Id;
+	}
+	
 	public Clothes(){
 		super();
 	}
@@ -69,6 +74,22 @@ public class Clothes {
 	}
 	public void setClothes_person(int clothes_person) {
 		this.clothes_person = clothes_person;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		System.out.println("zheshi equals");
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Clothes other = (Clothes) obj;
+		if (clothes_Id != other.clothes_Id)
+			return false;
+		System.out.println("end equals");
+		return true;
 	}
 	
 	@Override

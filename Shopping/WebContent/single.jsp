@@ -80,7 +80,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										</li>
 							</ul>
 						</div>
-								<a href="#" class="cart item_add">立即购买</a>
+								<a href="#" class="cart item_add">加入购物车</a>
 						</div>
 					</div>
 			<div class="clearfix"> </div>

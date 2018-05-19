@@ -33,8 +33,23 @@ public class UserDaoImp extends BaseDAOImp implements UserDao {
 
 	@Override
 	public boolean update(Object o) {
-		// TODO Auto-generated method stub
-		return false;
+		User u=(User)o;
+		PreparedStatement  preSta=null;
+		int result=0;
+		try {
+			  preSta=getPreSta("update users set userName=? ,nickName=?,sex=?,birthday=?,imageId=?,tel=? where userID=?");
+			  preSta.setString(1, u.getUserName());
+			  preSta.setString(2, u.getNickName());
+			  preSta.setInt(3, u.getSex());;
+			  preSta.setInt(4, u.getBirthday());;
+			  preSta.setString(5, u.getImageId());
+			  preSta.setString(6, u.getTel());
+			  preSta.setInt(7, u.getUserID());
+			  result=preSta.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result>0?true:false;
 	}
 
 	@Override
@@ -63,7 +78,7 @@ public class UserDaoImp extends BaseDAOImp implements UserDao {
 				user.setPassword(rs.getString("password"));
 				user.setTel(rs.getString("tel"));
 				user.setImageId(rs.getString("imageId"));
-				user.setBirthday(rs.getString("birthday"));
+				user.setBirthday(rs.getInt("birthday"));
 				user.setSex(rs.getInt("sex"));
 			}
 		} catch (Exception e) {
@@ -92,7 +107,7 @@ public class UserDaoImp extends BaseDAOImp implements UserDao {
 					user.setUserName(rs.getString("userName"));
 					user.setNickName(rs.getString("nickName"));
 					user.setImageId(rs.getString("imageId"));
-					user.setBirthday(rs.getString("birthday"));
+					user.setBirthday(rs.getInt("birthday"));
 					user.setSex(rs.getInt("sex"));
 				}
 			}
