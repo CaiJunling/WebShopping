@@ -1,6 +1,7 @@
 package com.oracle.shopping.control;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -50,6 +51,16 @@ public class ShoppingCarServlet extends HttpServlet {
 			deleteAll(request, response);
 			break;
 		}
+		case "reduceOne":
+		{	
+			reduceOne(request, response);
+			break;
+		}
+		case "addOne":
+		{	
+			addOne(request, response);
+			break;
+		}
 		default:
 			break;
 		}
@@ -78,6 +89,16 @@ public class ShoppingCarServlet extends HttpServlet {
 						shoppingcars.put(dao.getClothesInfoByClothesId(Integer.parseInt(clothes_Id)), 1);//将页面中添加的商品id和数量存储到购物车里
 						System.out.println("shoppingcars里面的值"+shoppingcars);
 						//3.为了保证购物车能够在多次操作后依然能读取里面的数据，我们需要用session来存储购物车的数据
+						
+						//计算购物车的总价格
+						float total=0.00f;
+						for(Clothes  c:shoppingcars.keySet()) {
+							total+=(c.getClothes_price()*shoppingcars.get(c));
+						}
+						DecimalFormat fnum=new DecimalFormat("#.00");
+						String total1=fnum.format(total);
+						request.getSession().setAttribute("total", total1);
+						
 						request.getSession().setAttribute("clothess", shoppingcars);
 				}else {
 					System.out.println("购物车有商品进入这里");
@@ -101,6 +122,7 @@ public class ShoppingCarServlet extends HttpServlet {
 							shoppingcars.put(dao.getClothesInfoByClothesId(Integer.parseInt(clothes_Id)),  1);//将页面中添加的商品id和数量存储到购物车里
 					}
 //					3.为了保证购物车能够在多次操作后依然能读取里面的数据，我们需要用session来存储购物车的数据
+					
 					request.getSession().setAttribute("clothess", shoppingcars);
 					
 					//4.为了提升用户体验度，我们除了讲用户购物车的数据放入session，同时再存入cookie，方便用户关闭页面时再打开能看到之前的购物车商品
@@ -110,7 +132,19 @@ public class ShoppingCarServlet extends HttpServlet {
 						r.setMaxAge(1000*60*60*24*15);
 						response.addCookie(r);
 					}
+					//计算购物车的总价格
+					float total=0.00f;
+					for(Clothes  c:shoppingcars.keySet()) {
+						total+=(c.getClothes_price()*shoppingcars.get(c));
+					}
+					DecimalFormat fnum=new DecimalFormat("#.00");
+					String total1=fnum.format(total);
+					request.getSession().setAttribute("total", total1);
 				}
+				
+				
+				
+				
 				response.sendRedirect("checkout.jsp");//当数据添加到购物车之后，直接跳转到购物车页面，让用户看一下购物车的信息
 	}
 	
@@ -137,6 +171,15 @@ public class ShoppingCarServlet extends HttpServlet {
 			}
 		}
 		request.getSession().setAttribute("clothess", shoppingcars);
+		//计算购物车的总价格
+		float total=0.00f;
+		for(Clothes  c:shoppingcars.keySet()) {
+			total+=(c.getClothes_price()*shoppingcars.get(c));
+		}
+		DecimalFormat fnum=new DecimalFormat("#.00");
+		String total1=fnum.format(total);
+		request.getSession().setAttribute("total", total1);
+		
 		request.getRequestDispatcher("checkout.jsp").forward(request, response);
 	}
 	
@@ -166,11 +209,20 @@ public class ShoppingCarServlet extends HttpServlet {
 						break;
 					}
 				}
+				
+				//计算购物车价格
+				float total=0.00f;
+				for(Clothes c:shoppingcars.keySet()) {
+					total+=(c.getClothes_price()*shoppingcars.get(c));
+				}
+				DecimalFormat fnum=new DecimalFormat("#.00");
+				String total1=fnum.format(total);
+				request.getSession().setAttribute("total", total1);
 				//3.档购物车的商品删除成功后，跳转到购物车页面
 				response.sendRedirect("checkout.jsp");
 	}
 	/**
-	 * 清空购物车
+	 * 清空购物车的功能
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -178,8 +230,104 @@ public class ShoppingCarServlet extends HttpServlet {
 	 */
 	protected void deleteAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getSession().removeAttribute("clothess");
+		request.getSession().removeAttribute("total");
+
 		response.sendRedirect("checkout.jsp");
 	}
+	
+	/**
+	 * 这是商品数量减一的方法
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void reduceOne(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String  clothes_Id=request.getParameter("clothes_Id");
+		HashMap<Clothes, Integer>  shoppingcars=(	HashMap<Clothes, Integer> )request.getSession().getAttribute("clothess");
+		//创建一个map集合，这个集合就是‘购物车’，这里面存用户添加了哪些商品以及对应的数量
+		
+		//因为session中已经存过购物车集合，说明之前买过东西，此时在添加新商品的时候应该先判断之前买过这个商品吗
+		//如果买过，应该是在原来的数量上加现在的数量，如果没买过就直接将这个商品添加到集合中
+		
+		Clothes  c=dao.getClothesInfoByClothesId(Integer.parseInt(clothes_Id));
+		if(shoppingcars.get(c)==1)
+		{
+			System.out.println("商品数量为1");
+			request.setAttribute("reduceErrorMessage", "reduceError");
+			request.getRequestDispatcher("checkout.jsp").forward(request, response);
+			//在后台servlet中，代码里面如果转发和重定向后面继续写其他业务代码，会报错
+				return ;
+		}
+		else {
+			int  nowCount=shoppingcars.get(c)-1;
+			shoppingcars.put(c, nowCount);
+		}
+//		3.为了保证购物车能够在多次操作后依然能读取里面的数据，我们需要用session来存储购物车的数据
+		request.getSession().setAttribute("clothess", shoppingcars);
+		
+		//4.为了提升用户体验度，我们除了讲用户购物车的数据放入session，同时再存入cookie，方便用户关闭页面时再打开能看到之前的购物车商品
+		
+		for(Clothes  cc:shoppingcars.keySet()) {
+			Cookie  r=new Cookie("clothes"+cc.getClothes_Id(), cc.getClothes_Id()+","+shoppingcars.get(cc));
+			r.setMaxAge(1000*60*60*24*15);
+			response.addCookie(r);
+		}
+		//计算购物车的总价格
+		float total=0.00f;
+		for(Clothes  cs:shoppingcars.keySet()) {
+			total+=(cs.getClothes_price()*shoppingcars.get(cs));
+		}
+		DecimalFormat fnum=new DecimalFormat("#.00");
+		String total1=fnum.format(total);
+		request.getSession().setAttribute("total", total1);
+		
+	  response.sendRedirect("checkout.jsp");
+	}
+
+    /**
+     * 这是商品数量加一的方法
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    protected void addOne(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    String  clothes_Id=request.getParameter("clothes_Id");
+	    HashMap<Clothes, Integer>  shoppingcars=(	HashMap<Clothes, Integer> )request.getSession().getAttribute("clothess");
+	    //创建一个map集合，这个集合就是‘购物车’，这里面存用户添加了哪些商品以及对应的数量
+	
+	    //因为session中已经存过购物车集合，说明之前买过东西，此时在添加新商品的时候应该先判断之前买过这个商品吗
+	    //如果买过，应该是在原来的数量上加现在的数量，如果没买过就直接将这个商品添加到集合中
+	
+	     System.out.println("商品数量加1");
+		 Clothes  c=dao.getClothesInfoByClothesId(Integer.parseInt(clothes_Id));
+		 int  nowCount=shoppingcars.get(c)+1;
+		 shoppingcars.put(c, nowCount);
+	   
+        //	3.为了保证购物车能够在多次操作后依然能读取里面的数据，我们需要用session来存储购物车的数据
+	    request.getSession().setAttribute("clothess", shoppingcars);
+	
+	    //4.为了提升用户体验度，我们除了讲用户购物车的数据放入session，同时再存入cookie，方便用户关闭页面时再打开能看到之前的购物车商品
+	
+	    for(Clothes  cc:shoppingcars.keySet()) {
+		    Cookie  r=new Cookie("clothes"+cc.getClothes_Id(), cc.getClothes_Id()+","+shoppingcars.get(cc));
+		    r.setMaxAge(1000*60*60*24*15);
+		    response.addCookie(r);
+	    }
+	    
+	  //计算购物车的总价格
+		float total=0.00f;
+		for(Clothes cs:shoppingcars.keySet()) {
+			total+=(cs.getClothes_price()*shoppingcars.get(cs));
+		}
+		DecimalFormat fnum=new DecimalFormat("#.00");
+		String total1=fnum.format(total);
+		request.getSession().setAttribute("total", total1);
+        response.sendRedirect("checkout.jsp");
+    }
+
+    
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

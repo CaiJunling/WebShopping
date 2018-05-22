@@ -35,6 +35,14 @@ public interface ClothesDAO extends BaseDAO {
 
 		public int getAllCountOfClothess();
 		
+		/**
+		 * 获取衣服分类
+		 * @return
+		 */
+		public  ArrayList<String>  getfenleiname();
+		public ArrayList<String> getfenleiclass(); 
+		public ArrayList<String> getfenleibrand(); 
+		
 	/** 
 	 * 定义一个搜索栏
 	 * 目前不需要

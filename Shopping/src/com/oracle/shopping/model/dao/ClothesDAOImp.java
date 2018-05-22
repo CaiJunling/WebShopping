@@ -194,6 +194,52 @@ public class ClothesDAOImp extends BaseDAOImp implements ClothesDAO {
 		}
 		return n;
 	}
+
+	@Override
+	public ArrayList<String> getfenleiname() {
+		ArrayList<String> name = new ArrayList<String>();// 定义一个集合存储查询出来的所有车辆信息
+		ResultSet rs = null;
+		try {
+			rs = getSta().executeQuery("SELECT DISTINCT clothes_name FROM clothes;");
+			while (rs.next()) {
+				name.add(rs.getString("clothes_name"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(name);
+		return name;
+	}
+	@Override
+	public ArrayList<String> getfenleiclass() {
+		ArrayList<String> class1 = new ArrayList<String>();// 定义一个集合存储查询出来的所有车辆信息
+		ResultSet rs = null;
+		try {
+			rs = getSta().executeQuery("SELECT DISTINCT clothes_class FROM clothes;");
+			while (rs.next()) {
+				class1.add(rs.getString("clothes_class"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(class1);
+		return class1;
+	}
+	@Override
+	public ArrayList<String> getfenleibrand() {
+		ArrayList<String> brand = new ArrayList<String>();// 定义一个集合存储查询出来的所有车辆信息
+		ResultSet rs = null;
+		try {
+			rs = getSta().executeQuery("SELECT DISTINCT clothes_brand FROM clothes;");
+			while (rs.next()) {
+				brand.add(rs.getString("clothes_brand"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(brand);
+		return brand;
+	}
 	
 
 }

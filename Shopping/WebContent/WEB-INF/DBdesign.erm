@@ -135,7 +135,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2018-04-22 09:03:36</creation_date>
-			<updated_date>2018-05-17 13:27:07</updated_date>
+			<updated_date>2018-05-20 12:33:33</updated_date>
 			<model_property>
 				<name>Project Name</name>
 				<value></value>
@@ -844,7 +844,7 @@
 					<physical_name></physical_name>
 					<type>varchar(n)</type>
 					<constraint></constraint>
-					<default_value></default_value>
+					<default_value>用户</default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
 					<not_null>true</not_null>
@@ -877,7 +877,7 @@
 					<physical_name></physical_name>
 					<type>varchar(n)</type>
 					<constraint></constraint>
-					<default_value></default_value>
+					<default_value>用户</default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
 					<not_null>false</not_null>
@@ -976,7 +976,7 @@
 					<physical_name></physical_name>
 					<type>varchar(n)</type>
 					<constraint></constraint>
-					<default_value></default_value>
+					<default_value>images/t1.png</default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
 					<not_null>false</not_null>
@@ -1009,7 +1009,7 @@
 					<physical_name></physical_name>
 					<type>varchar(n)</type>
 					<constraint></constraint>
-					<default_value></default_value>
+					<default_value>1</default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
 					<not_null>false</not_null>
@@ -1042,7 +1042,7 @@
 					<physical_name></physical_name>
 					<type>integer</type>
 					<constraint></constraint>
-					<default_value></default_value>
+					<default_value>1</default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
 					<not_null>false</not_null>

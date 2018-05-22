@@ -57,6 +57,11 @@ public class ClothesServlet extends HttpServlet {
 			listClothesByPage(request,response);
 			break;
 		}
+		case "fenlei":
+		{
+			fenlei(request,response);
+			break;
+		}
 		default:
 			break;
 		}
@@ -121,6 +126,7 @@ public class ClothesServlet extends HttpServlet {
 		request.setAttribute("clothess", searchedClothess);//这里是将查询出来的集合存储到request，然后通过转发传递到下一个jsp中显示出来
 
 		//3.当数据准备完毕之后，应该跳转到下一个页面(jsp)
+		//listClothesByPage(request,response);//查找分页 
 		request.getRequestDispatcher("products.jsp").forward(request, response); //request对象负责让这个jsp跳转到下一个页面
 		// response.sendRedirect("all-listings.jsp");//response对象的这个方法是重定向，它也会让当前jsp跳转到下一个制定的jsp
 	}
@@ -163,6 +169,25 @@ public class ClothesServlet extends HttpServlet {
 		request.getRequestDispatcher("products.jsp").forward(request, response);
 
 	}
+	
+	/**
+	 * 男装女装分类动态加载
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void fenlei(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("进入分类了");
+		ArrayList<String> fenleiname=dao.getfenleiname();//这里应该调用查询N个车辆信息的方法，把需要显示在首页的车辆信息查询出来
+		ArrayList<String> fenleiclass=dao.getfenleiclass();
+		ArrayList<String> fenleibrand=dao.getfenleibrand();
+		request.getSession().setAttribute("fenleiname", fenleiname);
+		request.getSession().setAttribute("fenleiclass", fenleiclass);
+		request.getSession().setAttribute("fenleibrand", fenleibrand);
+		request.getRequestDispatcher("index.jsp").forward(request, response);
+	}
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */

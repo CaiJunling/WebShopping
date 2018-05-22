@@ -46,7 +46,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<input  type="hidden"  name="userID"  value="${user.userID }"/>
 					<header class="header">
 						<h2 class="title"><span class="description">账号：${user.userName }</span></h2>
-						<input type="hidden" name="userName" value="${user.userName }" />
+						<input type="hidden" name="userName" value="${user.userName }" /> 
 
 					</header><!--/ .header -->
 					

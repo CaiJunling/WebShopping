@@ -5,6 +5,7 @@ SET SESSION FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS clothes;
 DROP TABLE IF EXISTS users;
 
+SELECT DISTINCT clothes_name FROM clothes;
 
 
 
@@ -29,16 +30,21 @@ CREATE TABLE clothes
 CREATE TABLE users
 (
 	userID int NOT NULL AUTO_INCREMENT,
-	userName varchar(20) NOT NULL,
-	nickName varchar(10),
-	passWord varchar(20) DEFAULT '111111' NOT NULL,
+	userName varchar(20) DEFAULT '用户' NOT NULL,
+	nickName varchar(20) DEFAULT '用户',
+	passWord varchar(100) DEFAULT '111111' NOT NULL,
 	tel varchar(11),
-	imageId varchar(30),
-	birthday varchar(10),
-	sex int,
+	imageId varchar(100) DEFAULT 'images/t1.png',
+	birthday int DEFAULT '1',
+	sex int DEFAULT 1,
 	PRIMARY KEY (userID),
 	UNIQUE (userID),
 	UNIQUE (tel)
 );
 
-ALTER TABLE users MODIFY COLUMN imageId varchar(100);  
+INSERT INTO users VALUES (1,'caicai','蔡蔡','123456','18827553083','images/t1.png',20,0);
+INSERT INTO users VALUES (2,'lele','乐乐','123456','18827551111','images/t2.png',15,1);
+INSERT INTO users VALUES (3,'xiaohua','小花','123456','18827552222','images/t1.png',18,0);
+INSERT INTO users VALUES (4,'wangle','小王','123456','18827553333','images/t1.png',32,1);
+
+

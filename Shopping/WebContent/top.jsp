@@ -1,7 +1,11 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!--header-->
+<%if(request.getSession().getAttribute("fenleiname")==null){
+	request.getRequestDispatcher("ClothesServlet?method=fenlei").forward(request, response);
+} %>
 <div class="header">
 	<div class="header-top">
 		<div class="container">
@@ -45,7 +49,15 @@
 					<div class="cart box_1">
 						<a href="ShoppingCarServlet?method=listAllCars">
 						<h3> <div class="total">
-							<span class="simpleCart_total"></span></div>
+						<!-- 购物车总价 -->
+							<span >￥
+							<%if(session.getAttribute("total")==null||session.getAttribute("total").toString().equals(".00")){%>
+								0.00
+							<% }else{%>
+							  <%=session.getAttribute("total") %> 
+							<%} %>
+							
+							</span></div>
 							<img src="images/cart.png" alt=""/></h3>
 						</a>
 						<p><a href="javascript:deleteAll()" class="simpleCart_empty">清空购物车</a></p>
@@ -67,53 +79,114 @@
 				      <li><a  href="#">男装</a>
 				      	<div class="mepanel">
 						<div class="row">
-							<div class="col1">
+						<!-- 衣服分类 -->
+						<div class="col1">
 								<div class="h_nav">
-									<h4>所有的衣服</h4>
+									<h4>种类</h4>
 									<ul>
-										<li><a href="products.html">T恤</a></li>
-										<li><a href="products.html">衬衫</a></li>
-										<li><a href="products.html">风衣</a></li>
-										<li><a href="products.html">牛仔外套</a></li>
-										<li><a href="products.html">背心</a></li>
-										<li><a href="products.html">运动裤</a></li>
-										<li><a href="products.html">长袖T恤</a></li>
-										<li><a href="products.html">卫衣</a></li>
-										<li><a href="products.html">夹克</a></li>
-										<li><a href="products.html">休闲裤</a></li>
-										<li><a href="products.html">羽绒服</a></li>
+									<%
+					                     ArrayList<String>  clothesclass=(ArrayList<String> )request.getSession().getAttribute("fenleiclass");
+			        
+					                     for(String f:clothesclass) {
+						                 %>
+						                  <li><a href="ClothesServlet?method=search&clothes_class=<%=f %>"><%=f %></a></li>
+						                 
+						                 <%} %> 
 										
-					
+										
+										
 									</ul>	
 								</div>							
 							</div>
-						
+							<!-- 衣服分类 -->
+							<div class="col1">
+								<div class="h_nav">
+									<h4>品牌</h4>
+									<ul>
+									<%
+					                     ArrayList<String> fenleibrand=(ArrayList<String> )request.getSession().getAttribute("fenleibrand");
+			        
+					                     for(String n:fenleibrand) {
+						                 %>
+						                  <li><a href="ClothesServlet?method=search&clothes_brand=<%=n %>"><%=n %></a></li>
+						                 
+						                 <%} %> 
+										
+									
+									</ul>	
+								</div>							
+							</div>
+							<!-- 衣服分类 -->
+							 <div class="col1">
+								<div class="h_nav">
+									<h4>系列名</h4>
+									<ul>
+										<%
+					                     ArrayList<String>  fenleiname=(ArrayList<String> )request.getSession().getAttribute("fenleiname");
+			        
+					                     for(String n:fenleiname) {
+						                 %>
+						                  <li><a href="ClothesServlet?method=search&clothes_name=<%=n %>"><%=n %></a></li>
+						                 
+						                 <%} %> 
+										
+									</ul>	
+								</div>							
+							</div>
+						<!-- 衣服分类 -->
 						  </div>
 						</div>
 					</li>
 				    <li class="grid"><a  href="#">女装</a>
 					  	<div class="mepanel">
 						<div class="row">
-							<div class="col1">
+							<!-- 衣服分类 -->
+						<div class="col1">
 								<div class="h_nav">
-									<h4>所有的衣服</h4>
+									<h4>种类</h4>
 									<ul>
-										<li><a href="products.html">T恤</a></li>
-										<li><a href="products.html">衬衫</a></li>
-										<li><a href="products.html">风衣</a></li>
-										<li><a href="products.html">牛仔外套</a></li>
-										<li><a href="products.html">背心</a></li>
-										<li><a href="products.html">运动裤</a></li>
-										<li><a href="products.html">长袖T恤</a></li>
-										<li><a href="products.html">卫衣</a></li>
-										<li><a href="products.html">夹克</a></li>
-										<li><a href="products.html">休闲裤</a></li>
-										<li><a href="products.html">羽绒服</a></li>
+										<%  for(String f:clothesclass) {
+						                 %>
+						                  <li><a href="ClothesServlet?method=search&clothes_class=<%=f %>"><%=f %></a></li>
+						                 
+						                 <%} %>
 										
-					
 									</ul>	
 								</div>							
 							</div>
+							<!-- 衣服分类 -->
+							<div class="col1">
+								<div class="h_nav">
+									<h4>品牌</h4>
+									<ul>
+										<%
+					                     
+					                     for(String n:fenleibrand) {
+						                 %>
+						                  <li><a href="ClothesServlet?method=search&clothes_brand=<%=n %>"><%=n %></a></li>
+						                 
+						                 <%} %> 
+									
+									</ul>	
+								</div>							
+							</div>
+							<!-- 衣服分类 -->
+							 <div class="col1">
+								<div class="h_nav">
+									<h4>系列名</h4>
+									<ul>
+										<%
+					                    
+					                     for(String n:fenleiname) {
+						                 %>
+						                  <li><a href="ClothesServlet?method=search&clothes_name=<%=n %>"><%=n %></a></li>
+						                 
+						                 <%} %> 
+										
+									</ul>	
+								</div>							
+							</div>
+						<!-- 衣服分类 -->
 							
 							
 						  </div>
@@ -141,6 +214,8 @@
 						
 				<form action="ClothesServlet">
 				<input type="hidden"   name="method"  value="search"/>
+				<!-- <input type="hidden" name="page" value="1" />
+				<input type="hidden" name="count" value="8" /> -->
 				<fieldset>
 					<label >类别:</label>
 					<input type="text"  name="clothes_class"/>

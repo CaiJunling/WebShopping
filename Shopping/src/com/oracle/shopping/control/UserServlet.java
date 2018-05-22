@@ -59,6 +59,9 @@ public class UserServlet extends HttpServlet {
 		  }case "logoff": {
 			  logoff(request, response);
 			  break;
+		  }case "register": {
+				register(request, response);
+				break;
 		  }default:
 			  break;
 		  }
@@ -238,6 +241,48 @@ public class UserServlet extends HttpServlet {
 				}
 				
 	}
+	/**
+	 * 处理注册用户的方法
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("进入到注册的servlet");
+		//1.先获取注册的表单信息
+		String userName = new String(request.getParameter("userName").getBytes("ISO-8859-1"), "UTF-8");
+		String nickName = new String(request.getParameter("nickName").getBytes("ISO-8859-1"), "UTF-8");
+		String tel = request.getParameter("tel");
+		String password = request.getParameter("password");
+		String confirmpassword = request.getParameter("confirmpassword");
+		System.out.println("密码："+password+"   "+"确认："+confirmpassword);
+		System.out.println("昵称："+nickName);
+		//判断表单是否为空
+		if(tel==""||password==""||!confirmpassword.equals(password)){
+			System.out.println("手机号是否为空："+tel=="");
+			System.out.println("密码是否为空："+password=="");
+			System.out.println("验证是否一致："+confirmpassword.equals(password));
+			request.setAttribute("loginResultMessage", "registerError");
+			request.getRequestDispatcher("register.jsp").forward(request, response);
+			return ;
+		}else{
+		     User user=new User(); 
+		     user.setTel(tel);
+		     user.setPassword(MD5.MD5(password));//在将表单提交过来的密码风涨到user对象前，先用md5算法把密码加密
+		     user.setUserName(userName);
+		     user.setNickName(nickName);
+		     boolean  result=dao.add(user);
+		     if(result) {
+		         request.setAttribute("loginResultMessage", "registerSuccess");
+		         }else
+		             {
+		             request.setAttribute("loginResultMessage", "registerFail");
+		             }
+		     request.getRequestDispatcher("account.jsp").forward(request, response);
+		}
+	}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

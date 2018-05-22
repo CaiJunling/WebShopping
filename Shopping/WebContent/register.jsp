@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Register</title>
+<title>注册</title>
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
@@ -31,42 +31,38 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="container">
 	<div class="register">
 		<h1>注册</h1>
-		  	  <form> 
+		  	  <form method="post"  action="UserServlet"> 
+		  	  <input type="hidden" name="method" value="register"/>
 				 <div class="col-md-6  register-top-grid">
 					
 					<div class="mation">
+					    <span>手机号码</span>
+						<input type="text" id="telnumber" name="tel" onblur="telyanzheng()"> 
+						
 						<span>姓名</span>
-						<input type="text"> 
+						<input type="text" name="userName"> 
 					
 						<span>昵称</span>
-						<input type="text"> 
+						<input type="text" id="nicheng" name="nickName"> 
 					 
-						 <span>手机号码</span>
-						 <input type="text"> 
 					</div>
-					 <div class="clearfix"> </div>
-					   <a class="news-letter" href="#">
-						 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i>记住密码</label>
-					   </a>
+					 
 					 </div>
 				     <div class=" col-md-6 register-bottom-grid">
 						   
 							<div class="mation">
 								<span>密码</span>
-								<input type="text">
+								<input type="password" id="mima" onblur="getpassword()" name="password" style="border: 1px solid #EEE;outline-color:#52D0C4;width: 100%;font-size: 1em;padding: 0.5em;margin: 0.5em 0;">
 								<span>确认密码</span>
-								<input type="text">
+								<input type="password" id="querenmima" onblur="confpassword()" name="confirmpassword" style="border: 1px solid #EEE;outline-color:#52D0C4;width: 100%;font-size: 1em;padding: 0.5em;margin: 0.5em 0;">
 							</div>
 					 </div>
 					 <div class="clearfix"> </div>
+					   <input type="submit" value="提交" style="background:#52D0C4;color: #FFF;font-size:1em;padding: 0.4em 1em;transition: 0.5s all;-webkit-transition: 0.5s all;-moz-transition: 0.5s all;-o-transition: 0.5s all;display: inline-block;border:none;outline:none;">
+				     
 				</form>
 				
-				<div class="register-but">
-				   <form>
-					   <input type="submit" value="提交">
-					   <div class="clearfix"> </div>
-				   </form>
-				</div>
+				
 		   </div>
 </div>
 
@@ -75,4 +71,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <!--//footer-->
 </body>
+<script>
+  function telyanzheng(){
+	  var telnumber=document.getElementById("telnumber").value;
+	  if(telnumber==""){
+		  alert("温馨提示:\r\n手机号不能为空!");
+		}else if(telnumber.length!=11){
+			alert("温馨提示:\r\n手机号格式不正确!");
+		}
+  }
+  function getpassword(){
+	  var mima=document.getElementById("mima").value;
+	  if(mima==""){
+		  alert("温馨提示:\r\n密码不能为空!");
+		}
+  }
+  function confpassword(){
+	  var mima=document.getElementById("mima").value;
+	  var querenmima=document.getElementById("querenmima").value;
+	  if(mima!=querenmima){
+		  alert("温馨提示:\r\n密码不一致!");
+		  alert("昵称："+document.getElementById("nicheng").value);
+		}
+  }
+
+
+</script>
+<!-- 验证表单是否为空，用户手机号或密码或确认密码为空不一致 -->
+<%  if(request.getAttribute("loginResultMessage")!=null&&request.getAttribute("loginResultMessage").toString().equals("registerError")) {%>
+	<script type="text/javascript">
+	alert("温馨提示:\r\n手机号或密码填写错误!");
+	</script>
+	<%} %> 
 </html>

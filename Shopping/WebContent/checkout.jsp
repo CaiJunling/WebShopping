@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +36,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     	    <table >
 		         <tr>
 			        <th>商品信息</th>
-			        <th>数量</th>		
+			        <th style="position:relative;left:28px">数量</th>		
 			        <th>单价</th>
 			        <th>总计</th>
 			        <th>操作</th>
@@ -46,7 +47,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<!-- 购物商品列表-->
 				<c:forEach var="s"  items="${sessionScope.clothess }">
 		        <tr>
-			        <td class="ring-in"><a href="single.jsp" class="at-in">
+			        <td class="ring-in"><a href="ClothesServlet?method=single&clothes_Id=${s.key.clothes_Id}" class="at-in">
 			           <img src="${s.key.clothes_imgId}" class="img-responsive" alt=""></a>
 			           <div class="sed">
 				       <h5>${s.key.clothes_class}&nbsp;${s.key.clothes_brand}&nbsp;${s.key.clothes_name}</h5>
@@ -55,30 +56,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			           </div>
 			           <div class="clearfix"> </div>
 			        </td>
-			        <td class="check">
-			              <input type="text" value="1" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}"></td>		
-			        <td>${s.key.clothes_price}</td>
-			        <td>${s.key.clothes_price}</td>
+			        <td >
+			              <a href="ShoppingCarServlet?method=reduceOne&clothes_Id=${s.key.clothes_Id }"> 
+			                 <img src="images/delete.png" />
+			              </a>
+			              <input type="text" readonly="readonly" style="width:40px;text-align: center"  value="${s.value }">
+			              <a href="ShoppingCarServlet?method=addOne&clothes_Id=${s.key.clothes_Id }"> 
+			                 <img src="images/add.png"/>
+			              </a>
+			              		
+			        <td>￥${s.key.clothes_price}</td>
+			        <td>￥ <fmt:formatNumber type="number" value="${s.key.clothes_price*s.value}" pattern="0.00" maxFractionDigits="2"/> </td>
 			        <td>
 			            <a  href="javascript:deleteCarFromGouwuche('ShoppingCarServlet?method=deleteCar&clothes_Id=${s.key.clothes_Id }')">
-			                                      删除</td>
+			                                      删除</a></td>
 		        </tr>
 		        </c:forEach>
 		        
 		        
-		  
-		 <!-- <tr>
-		  <td class="ring-in"><a href="single.html" class="at-in"><img src="images/ce2.jpg" class="img-responsive" alt=""></a>
-			<div class="sed">
-				<h5>Sed ut perspiciatis unde</h5>
-				<p>(At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium) </p>
-			</div>
-			<div class="clearfix"> </div></td>
-			<td class="check"><input type="text" value="1" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='';}"></td>		
-			<td>$150.00</td>
-			<td>$150.00</td>
-			<td>删除</td>
-		  </tr> -->
 	</table>
 	<a href="#" class=" to-buy">结算</a>
 	<a href="javascript:deleteAll()" class="to-buy simpleCart_empty">清空购物车</a>
@@ -88,7 +83,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <%@include file="foot.jsp" %>
 </body>
 </html>
-
+<%  if(request.getAttribute("reduceErrorMessage")!=null&&request.getAttribute("reduceErrorMessage").toString().equals("reduceError")) {%>
+	<script type="text/javascript">
+	alert("温馨提示:\r\n该商品不能在减少哦!");
+	</script>
+	<%}%>
+	
 <script>
 	function deleteCarFromGouwuche(url){
 		//ShoppingCarServlet?method=deleteCar&carid=${s.key.carId }

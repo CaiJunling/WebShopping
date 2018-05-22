@@ -16,7 +16,7 @@ public class UserDaoImp extends BaseDAOImp implements UserDao {
 		Statement  sta=null;
 		try {
 			sta=getSta();
-			int count=sta.executeUpdate("insert into  user(userid,username,password)   values(null,'"+user.getUserName()+"','"+user.getPassword()+"')");
+			int count=sta.executeUpdate("insert into  users(userID,userName,nickName,password,tel)   values(null,'"+user.getUserName()+"','"+user.getNickName()+"','"+user.getPassword()+"','"+user.getTel()+"')");
 			result=(count>0)?true:false;
 		} catch (Exception e) {
 			e.printStackTrace();

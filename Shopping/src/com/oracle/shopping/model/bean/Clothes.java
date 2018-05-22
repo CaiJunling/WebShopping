@@ -76,9 +76,18 @@ public class Clothes {
 		this.clothes_person = clothes_person;
 	}
 	
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + clothes_Id;
+		return result;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
-		System.out.println("zheshi equals");
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -88,10 +97,9 @@ public class Clothes {
 		Clothes other = (Clothes) obj;
 		if (clothes_Id != other.clothes_Id)
 			return false;
-		System.out.println("end equals");
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Clothes [clothes_Id=" + clothes_Id + ", clothes_class=" + clothes_class + ", clothes_brand="
