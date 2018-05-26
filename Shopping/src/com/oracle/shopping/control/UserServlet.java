@@ -1,6 +1,7 @@
 package com.oracle.shopping.control;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.UUID;
 
 import javax.servlet.ServletConfig;
@@ -62,7 +63,10 @@ public class UserServlet extends HttpServlet {
 		  }case "register": {
 				register(request, response);
 				break;
-		  }default:
+		  }case "checkUserExists": {
+				checkUserExists(request, response);
+				break;
+			}default:
 			  break;
 		  }
 		}
@@ -281,6 +285,26 @@ public class UserServlet extends HttpServlet {
 		             }
 		     request.getRequestDispatcher("account.jsp").forward(request, response);
 		}
+	}
+	
+	/**
+	 * 登录时检测用户是否存在的方法
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void checkUserExists(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("检测用户是否存在的方法");
+		String  tel=request.getParameter("tel");
+		boolean result=dao.checkUserExsit(tel);//调用dao方法判断该用户名是否存在
+		//悄悄把数据会给他
+		//用response（响应）对象中的输出流将处理好的结果输出给ajax请求对象
+		response.setContentType("text/html;charset=UTF-8");//  text/html     ,text/xml    ,text/json
+		PrintWriter  out=response.getWriter();//获取响应对象中的输出流
+		out.write(result+"");
+		out.flush();
+		out.close();
 	}
 
 

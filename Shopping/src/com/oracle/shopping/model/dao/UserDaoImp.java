@@ -117,4 +117,20 @@ public class UserDaoImp extends BaseDAOImp implements UserDao {
 		return user;	
 	}
 
+	@Override
+	public boolean checkUserExsit(String tel) {
+		// 检测登录时输入的号码是否存在
+		boolean result=false;
+		Statement  sta=null;
+		try {
+			sta=getSta();
+			ResultSet  rs=sta.executeQuery("select  count(userId)  from  users where tel='"+tel+"'");
+			rs.next();
+			result=(rs.getInt(1)>0)?true:false;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 }

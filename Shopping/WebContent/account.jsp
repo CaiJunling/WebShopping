@@ -39,11 +39,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				    <input  id="method" type="hidden" name="method" value="login"/>
 				   
 					<span>手机号码</span>
-					<input type="text" name="tel" value="${cookie.tel.value }"> 
-				
+					<input type="text" name="tel" value="${cookie.tel.value }"><span id="userExtist"></span>
+				    
 					<span>密码</span>
 					<input type="password" name="password" value="${cookie.password.value }" style="width:96%;height:42px"> 
-					
+					<span id="userExtist"></span>
 					<span>验证码</span>
 					<img id="code" src="CodeServlet"  style="position:relative;top:-1px;border:1px;width:30%;height:42px;" />
 					<input type="text" name="code" style="width:65%"> 
@@ -94,5 +94,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	alert("温馨提示:\r\n用户名和密码错误!");
 	</script>
 	<%} %> 
+	
+
 </body>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	/**
+	登录用户名检测是否存在的ajax代码
+	**/
+	$(" [name='tel'] ").blur(function(){
+		$.get("UserServlet?method=checkUserExists&tel="+$(this).val(),function(data,status){
+			if(data=='true'){
+				$("#userExtist").html("<b style='color:green'>√</b>");
+			}else
+			{
+				$("#userExtist").html("<b style='color:red'>该用户不存在</b>");
+			}
+		});
+	});
+	
+	
+});
+
+
+</script>
 </html>
