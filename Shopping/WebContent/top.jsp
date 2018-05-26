@@ -196,51 +196,42 @@
 				<li><a class="color6" href="contact.jsp">联系我们</a></li>
 			  </ul> 
 			</div>
-				<div class="col-sm-2 search">		
+				 <div class="col-sm-2 search">
+					
+			   	
 			        <a class="play-icon popup-with-zoom-anim" href="#small-dialog">
-			           <i class="glyphicon glyphicon-search"> </i>
+			           <i class="glyphicon glyphicon-search" style="color:#52d0c4">搜索</i>
 			        </a>
+			        
 		        </div>
 		<div class="clearfix"> </div>
 			<!---pop-up-box---->
 					 
-					<link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
-					<script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
+				<link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
+				<script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
 					
 					
 					<!---//pop-up-box 搜索栏---->
+					
 				<div id="small-dialog" class="mfp-hide">
-				<div class="search-top">
-						
-				<form action="ClothesServlet">
-				<input type="hidden"   name="method"  value="search"/>
-				<!-- <input type="hidden" name="page" value="1" />
-				<input type="hidden" name="count" value="8" /> -->
-				<fieldset>
-					<label >类别:</label>
-					<input type="text"  name="clothes_class"/>
-
-				</fieldset>
-				<br/>
-				<fieldset>
-					<label >品牌:</label>
-					<input type="text"  id="clothes_brand" name="clothes_brand"/>
-				</fieldset>
-				<br/>				
-				<fieldset>
-					<label >名称:</label>
-					<input type="text"  id="clothes_name" name="clothes_name"/>
-				</fieldset>
-				<br/>
-				<fieldset>
-					<label >单价:</label>
-					<input type="text"  id="clothes_minprice" name="clothes_minprice" style="width: 89px"/>-
-					<input type="text"  id="clothes_maxprice" name="clothes_maxprice" style="width: 88.5px"/>
-				</fieldset>	
-				<br/>	
-				<button id="submitSearch"  type="submit" style="width:120px">查找</button>
-				</form>
-					</div>				
+			
+				  <div class="search-top">
+				
+				    <!-- 模糊搜索 -->
+					<form action="ClothesServlet" id="searchform" method="get">
+				       <input type="hidden" name="method" value="searchAny"/>
+				       <div class="search-top">
+					      <div class="login">
+					         <input type="submit" value=""> <input type="text"
+							        value="请输入 . . ." name="key" onFocus="this.value = '';"
+							        onBlur="if (this.value == '') {this.value = '';}">
+					         </div>
+					            <p></p><a href="searchbycondition.jsp">-->>选择条件搜索</a>
+				       </div>
+			        </form>
+				 <!--模糊搜索 --> 
+				
+				  </div>				
 				</div>
 				
 				

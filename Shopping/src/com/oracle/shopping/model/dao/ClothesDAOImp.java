@@ -1,6 +1,7 @@
 package com.oracle.shopping.model.dao;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 
 import com.oracle.shopping.model.bean.Clothes;
@@ -239,6 +240,71 @@ public class ClothesDAOImp extends BaseDAOImp implements ClothesDAO {
 		}
 		System.out.println(brand);
 		return brand;
+	}
+	/**
+	 * 模糊搜索
+	 */
+	@Override
+	public ArrayList<Clothes> searchAllByKey(String key) {
+		//根据给定的正则表达式拆分字符串
+		String [] keys=key.split("\\s+");
+		System.out.println("模糊数据："+keys);
+		ArrayList<Clothes> clothess=new ArrayList<Clothes>();
+		ResultSet res=null;
+		try {
+			res=getSta().executeQuery("select * from clothes limit 1");
+			ResultSetMetaData data=res.getMetaData();
+			String sql="select * from clothes where 1=0 or ";
+			String[] columnName=new String [data.getColumnCount()];
+			for(int n=1;n<=data.getColumnCount();n++) 
+			{
+				columnName[n-1]=data.getColumnLabel(n);
+			}
+			for(String k:keys) {
+				if(k.equals("男")) {
+					sql+=" ( 1=0";
+					for(String column:columnName) {
+						sql+=" or  "+column+" like '0' ";
+					}
+					sql+=") and";
+				}else if(k.equals("女")) {
+					sql+=" ( 1=0";
+					for(String column:columnName) {
+						sql+=" or  "+column+" like '1' ";
+					}
+					sql+=") and";
+				}else {
+				sql+=" ( 1=0";
+				for(String column:columnName) {
+					sql+=" or  "+column+" like '%"+k+"%' ";
+				}
+				sql+=") and";
+				}
+			}
+			//去掉结尾的and
+			sql=sql.substring(0,sql.length()-3);
+			System.out.println("模糊查询sql:"+sql);
+			res=getSta().executeQuery(sql);
+			while(res.next()) 
+			{
+				Clothes g=new Clothes();
+				g.setClothes_Id(res.getInt("clothes_Id"));
+				g.setClothes_class(res.getString("clothes_class"));
+				g.setClothes_brand(res.getString("clothes_brand"));
+				g.setClothes_name(res.getString("clothes_name"));
+				g.setClothes_price(res.getFloat("clothes_price"));
+				g.setClothes_store(res.getInt("clothes_store"));
+				g.setClothes_des(res.getString("clothes_des"));
+				g.setClothes_imgId(res.getString("clothes_imgId"));
+				g.setClothes_person(res.getInt("clothes_person"));
+				clothess.add(g);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		disposeResource(getSta(),res, getCon());
+		return clothess;
 	}
 	
 

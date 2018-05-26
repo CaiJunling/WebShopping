@@ -61,8 +61,11 @@ public class ClothesServlet extends HttpServlet {
 		{
 			fenlei(request,response);
 			break;
-		}
-		default:
+		}case "searchAny":
+		{
+			searchAny(request,response);
+			break;
+		}default:
 			break;
 		}
 	}
@@ -186,6 +189,22 @@ public class ClothesServlet extends HttpServlet {
 		request.getSession().setAttribute("fenleiclass", fenleiclass);
 		request.getSession().setAttribute("fenleibrand", fenleibrand);
 		request.getRequestDispatcher("index.jsp").forward(request, response);
+	}
+	
+	/**
+	 * 这是模糊搜索的方法
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void searchAny(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String   key=new String(request.getParameter("key"));
+		System.out.println("获取模糊数据："+key);
+		ArrayList<Clothes> clothess=dao.searchAllByKey(key);
+		//System.out.println("模糊搜索的衣服："+clothess);
+		request.setAttribute("clothess", clothess);
+		request.getRequestDispatcher("products.jsp").forward(request, response); //request对象负责让这个jsp跳转到下一个页面
 	}
 	
 	/**

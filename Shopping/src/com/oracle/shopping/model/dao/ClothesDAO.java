@@ -43,6 +43,13 @@ public interface ClothesDAO extends BaseDAO {
 		public ArrayList<String> getfenleiclass(); 
 		public ArrayList<String> getfenleibrand(); 
 		
+		/**
+		 * 根据模糊关键字查询所有的内容
+		 * @param key
+		 * @return
+		 */
+		public  abstract ArrayList<Clothes>  searchAllByKey(String key);
+		
 	/** 
 	 * 定义一个搜索栏
 	 * 目前不需要

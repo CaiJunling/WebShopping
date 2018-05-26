@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>myOrder</title>
+<title>条件搜索</title>
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="js/jquery.min.js"></script>
@@ -36,7 +36,46 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head>
 <body>
 <%@include file="top.jsp" %>>
-我的订单
+<div class="account">
+	<div class="container">
+		<h1>条件搜索</h1>
+		<div class="account_grid">
+			   <div class="col-md-6 login-right">
+				<!-- 条件搜索 -->		
+				<form action="ClothesServlet">
+				<input type="hidden"   name="method"  value="search"/>
+				<!-- <input type="hidden" name="page" value="1" />
+				<input type="hidden" name="count" value="8" /> -->
+				<fieldset>
+					<label >类别:</label>
+					<input type="text"  name="clothes_class"/>
+
+				</fieldset>
+				<br/>
+				<fieldset>
+					<label >品牌:</label>
+					<input type="text"  id="clothes_brand" name="clothes_brand"/>
+				</fieldset>
+				<br/>				
+				<fieldset>
+					<label >名称:</label>
+					<input type="text"  id="clothes_name" name="clothes_name"/>
+				</fieldset>
+				<br/>
+				<fieldset>
+					<label >单价:</label>
+					<input type="text"  id="clothes_minprice" name="clothes_minprice" style="width: 89px"/>-
+					<input type="text"  id="clothes_maxprice" name="clothes_maxprice" style="width: 88.5px"/>
+				</fieldset>	
+				<br/>
+				<button id="submitSearch"  type="submit" style="background-color:#52d0c4;color:white;border:0px;width:100px;height:34.78px;font-size:16px">搜索</button>
+				</form>
+			   </div>
+			   
+			   <div class="clearfix"> </div>
+			 </div>
+	</div>
+</div>
 
 
 <%@include file="foot.jsp" %>>
