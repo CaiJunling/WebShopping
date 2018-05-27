@@ -38,7 +38,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="mation">
 					    <span>手机号码</span>
 						<input type="text" id="telnumber" name="tel" onblur="telyanzheng()"> 
-						
+						<span id="userExtist"></span>
 						<span>姓名</span>
 						<input type="text" name="userName"> 
 					
@@ -103,4 +103,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	alert("温馨提示:\r\n手机号或密码填写错误!");
 	</script>
 	<%} %> 
+	
+		
+<script type="text/javascript">	
+$(document).ready(function(){
+	
+	/**
+	登录用户名检测是否存在的ajax代码
+	**/
+	$(" [name='tel'] ").blur(function(){
+		$.get("UserServlet?method=checkUserExists&tel="+$(this).val(),function(data,status){
+			if(data=='false'){
+				$("#userExtist").html("<b style='color:green'>√</b>");
+			}else
+			{
+				$("#userExtist").html("<b style='color:red'>该用户已存在</b>");
+			}
+		});
+	});
+	
+	
+});
+</script>
 </html>

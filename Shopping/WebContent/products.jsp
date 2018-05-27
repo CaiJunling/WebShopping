@@ -48,7 +48,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<a href="ClothesServlet?method=single&clothes_Id=<%=c.getClothes_Id() %>">
 							<img class="img-responsive" src="<%=c.getClothes_imgId() %>" alt="" />
 						</a>
-						<h3><a "ClothesServlet?method=single&clothes_Id=<%=c.getClothes_Id() %>"><%=c.getClothes_class() %>&nbsp;<%=c.getClothes_brand() %></a></h3>
+						<h3><a "ClothesServlet?method=single&clothes_Id=<%=c.getClothes_Id() %>">
+						        
+						        <% String linshi=c.getClothes_class()+" "+c.getClothes_brand();
+						        
+						           if(linshi.length()<9){
+						        	 %><%=linshi %>  
+						           <% }else{
+						           String jq=linshi.substring(0, 8);
+						           %><%=jq %>
+						          <% }%>
+						           
+						        
+						       
+						    </a></h3>
 						<div class="price">
 								<h5 class="item_price">￥<%=c.getClothes_price() %></h5>
 								<a href="ShoppingCarServlet?method=add&clothes_Id=<%=c.getClothes_Id() %>" class="item_add">加入购物车</a>

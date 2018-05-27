@@ -55,7 +55,7 @@
 						<li>湖北省 </li>
 						<li>襄阳市</li>
 						<li> 湖北文理学院</li>
-						<li class="phone">Tel:666888888</li>
+						<li class="phone">Tel:88888-66666</li>
 					</ul>
 				</div>
 				<div class="clearfix"> </div>
@@ -64,4 +64,58 @@
 	</div>
 </div>
 
+
+<script type="text/javascript">
+$(document).ready(function(){
+		/**
+		搜索框模糊匹配ajax代码
+		**/
+	   $("#s").keyup(function(){
+		
+		  $.post("ClothesServlet",
+					{
+						"key":$(this).val(),
+						"method":"mohuSearch"
+					},
+					function(data,status){
+						var   allPipeis=data.getElementsByTagName("title");
+						if(allPipeis.length>0){
+							$("#allPipei").css("display","block");
+							
+							  for (var i=0;i<document.getElementById("allPipei").rows.length;i++)
+							     {
+								  document.getElementById("allPipei").deleteRow(i);
+							     }
+							//document.getElementById("allPipei").rows.length=0;//清空表格之前的所有航
+							for(var  n=0;n<allPipeis.length;n++)
+							{
+								var  tr=document.getElementById("allPipei").insertRow();
+								tr.style.width="100%";
+								tr.style.cursor="pointer";
+								
+								var  td=tr.insertCell();
+								td.innerHTML=allPipeis[n].childNodes[0].nodeValue;
+								td.style.textAlign="left";
+								td.style.width="600px";
+								td.style.cursor="pointer";
+								td.onclick=function(){
+									$("#s").val(this.innerHTML);
+									$("#allPipei").css("display","none");
+								}
+								tr.onmouseover=function(){
+									this.style.backgroundColor='#faffbd';
+								}
+								tr.onmouseout=function(){
+									this.style.backgroundColor='';
+								}
+							}
+						}
+				   })
+	   });
+	
+	
+	
+});
+
+</script>
 <!--//footer-->

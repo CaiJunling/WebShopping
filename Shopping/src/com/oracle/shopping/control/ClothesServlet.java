@@ -1,6 +1,7 @@
 package com.oracle.shopping.control;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -64,6 +65,10 @@ public class ClothesServlet extends HttpServlet {
 		}case "searchAny":
 		{
 			searchAny(request,response);
+			break;
+		}case "mohuSearch"://搜索框模糊匹配关键字
+		{
+			mohuSearch(request,response);
 			break;
 		}default:
 			break;
@@ -207,12 +212,32 @@ public class ClothesServlet extends HttpServlet {
 		request.getRequestDispatcher("products.jsp").forward(request, response); //request对象负责让这个jsp跳转到下一个页面
 	}
 	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	/**
+	 * 搜索框模糊匹配关键字
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	protected void mohuSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String  key=request.getParameter("key");
+		System.out.println(key);
+		ArrayList<String>  pipeis=dao.mohuSearch(key);
+		
+		response.setContentType("text/xml;charset=UTF-8");
+		PrintWriter   out=response.getWriter();
+		out.write("<?xml version='1.0'   encoding='UTF-8' ?>\r\n");
+		out.write("<titles>\r\n");
+			for(String k:pipeis) {
+				out.write("<title>"+k+"</title>\r\n");
+			}
+		out.write("</titles>");
+		out.flush();
+		out.close();
 	}
 
 }

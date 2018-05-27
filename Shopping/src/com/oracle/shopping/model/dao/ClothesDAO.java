@@ -50,6 +50,13 @@ public interface ClothesDAO extends BaseDAO {
 		 */
 		public  abstract ArrayList<Clothes>  searchAllByKey(String key);
 		
+		/**
+		 * 模糊搜索返回值
+		 * @param key
+		 * @return
+		 */
+		public  ArrayList<String>  mohuSearch(String key);
+		
 	/** 
 	 * 定义一个搜索栏
 	 * 目前不需要

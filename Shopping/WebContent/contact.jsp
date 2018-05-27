@@ -28,56 +28,56 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <%@include file="top.jsp" %>
 <div class="contact">
 			<div class="container">
-				<h1>Contact</h1>
+				<h1>联系我们</h1>
 				
 				<div class="contact-grids">
 					<div class="contact-form">
 							<form>
 								<div class="contact-bottom">
 									<div class="col-md-4 in-contact">
-										<span>Name</span>
+										<span>姓名：</span>
 										<input type="text" >
 									</div>
 									<div class="col-md-4 in-contact">
-										<span>Email</span>
+										<span>Email：</span>
 										<input type="text" >
 									</div>
 									<div class="col-md-4 in-contact">
-										<span>Phonenumber</span>
+										<span>手机号码：</span>
 										<input type="text">
 									</div>
 									<div class="clearfix"> </div>
 								</div>
 							
 								<div class="contact-bottom-top">
-									<span>Message</span>
+									<span>留言：</span>
 									<textarea > </textarea>								
 									</div>
-								<input type="submit" value="Send">
+								<input type="submit" value="发送">
 							</form>
 						</div>
 				<div class="address">
 					<div class=" address-more">
-						<h2>Address</h2>
+						<h2>地址：</h2>
 						<div class="col-md-4 address-grid">
 							<i class="glyphicon glyphicon-map-marker"></i>
 							<div class="address1">
-								<p>Lorem ipsum dolor</p>
-								<p>TL 19034-88974</p>
+								<p>湖北文理学院</p>
+								<p>TL 88888-66666</p>
 							</div>
 							<div class="clearfix"> </div>
 						</div>
 						<div class="col-md-4 address-grid ">
 							<i class="glyphicon glyphicon-phone"></i>
 							<div class="address1">
-								<p>+885699655</p>
+								<p>+6688688</p>
 							</div>
 							<div class="clearfix"> </div>
 						</div>
 						<div class="col-md-4 address-grid ">
 							<i class="glyphicon glyphicon-envelope"></i>
 							<div class="address1">
-								<p><a href="mailto:@example.com"> @example.com</a></p>
+								<p><a href="mailto:@example.com"> @huwen.com</a></p>
 							</div>
 							<div class="clearfix"> </div>
 						</div>

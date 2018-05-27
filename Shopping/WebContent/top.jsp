@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!--header-->
+
 <%if(request.getSession().getAttribute("fenleiname")==null){
 	request.getRequestDispatcher("ClothesServlet?method=fenlei").forward(request, response);
 } %>
@@ -199,7 +200,7 @@
 				 <div class="col-sm-2 search">
 					
 			   	
-			        <a class="play-icon popup-with-zoom-anim" href="#small-dialog">
+			        <a  id="ss" class="play-icon popup-with-zoom-anim" href="#small-dialog">
 			           <i class="glyphicon glyphicon-search" style="color:#52d0c4">搜索</i>
 			        </a>
 			        
@@ -222,10 +223,13 @@
 				       <input type="hidden" name="method" value="searchAny"/>
 				       <div class="search-top">
 					      <div class="login">
-					         <input type="submit" value=""> <input type="text"
+					         <input type="submit" value=""> <input type="text" id="s"
 							        value="请输入 . . ." name="key" onFocus="this.value = '';"
 							        onBlur="if (this.value == '') {this.value = '';}">
 					         </div>
+					         <table id="allPipei" style="background-color:white;border:none;position: absolute ; display: none; width:87.5%;top: 62px;left:56px">
+							
+					        </table>
 					            <p></p><a href="searchbycondition.jsp">-->>选择条件搜索</a>
 				       </div>
 			        </form>

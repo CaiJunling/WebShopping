@@ -306,6 +306,21 @@ public class ClothesDAOImp extends BaseDAOImp implements ClothesDAO {
 		disposeResource(getSta(),res, getCon());
 		return clothess;
 	}
+
+	@Override
+	public ArrayList<String> mohuSearch(String key) {
+		ArrayList<String> titles = new ArrayList<String>();
+		ResultSet rs = null;
+		try {
+			rs = getSta().executeQuery("select  clothes_class  from  clothes  where clothes_class  like '%"+key+"%'  limit 5");
+			while (rs.next()) {
+					titles.add(rs.getString(1));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return titles;
+	}
 	
 
 }
