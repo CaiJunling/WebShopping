@@ -11,6 +11,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.oracle.shopping.model.bean.User;
+
 /**
  * Servlet Filter implementation class SessionCheckerFilter
  */
@@ -48,9 +50,19 @@ public class SessionCheckerFilter implements Filter {
 				}
 				if(parameters.contains("method=loadProfile")) {
 					
+					User denglu=(User) r.getSession().getAttribute("loginedUser");
 					//2.判断session中有没有用户登录的信息
-					if(r.getSession().getAttribute("loginedUser")!=null) {
-						chain.doFilter(request, response);//如果正确登录，就放行
+					if(denglu!=null) {
+						int a=parameters.indexOf("userID");
+						String userid=parameters.substring(a+7);
+						String dengluID=denglu.getUserID()+"";
+						System.out.println("链接获取ID："+userid+"\n");
+						if(dengluID.equals(userid)){
+							System.out.println("进去正常登陆");
+							chain.doFilter(request, response);//如果正确登录，就放行
+						}else{
+							rs.sendRedirect("index.jsp");//如果没有正确登录，直接跳转回登录页面
+						}
 					}else
 					{
 						rs.sendRedirect("index.jsp");//如果没有正确登录，直接跳转回登录页面

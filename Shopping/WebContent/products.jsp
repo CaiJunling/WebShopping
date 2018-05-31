@@ -52,11 +52,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						        
 						        <% String linshi=c.getClothes_class()+" "+c.getClothes_brand();
 						        
-						           if(linshi.length()<9){
+						           if(linshi.length()<8){
 						        	 %><%=linshi %>  
 						           <% }else{
-						           String jq=linshi.substring(0, 8);
-						           %><%=jq %>
+						           String jq=linshi.substring(0, 7);
+						           %><%=jq+".."%>
 						          <% }%>
 						           
 						        
@@ -72,13 +72,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<%
 					}%>
 					</br>
-					<!-- 分页代码 -->	
+					
+			</div>
+			<!-- 分页代码 -->	
+					<div class="clearfix"> </div>
+					<div class="clearfix"> </div>
 			<div style="width: 100%;margin: auto;text-align:center;">
 		<%if(request.getAttribute("pageBean")!=null){ %>
-						<a  href="ClothesServlet?method=listClothesByPage&page=1&count=8" >首页</a>
-						<a  href="ClothesServlet?method=listClothesByPage&page=<%=((PageBean)request.getAttribute("pageBean")).getPreviousPage()%>&count=8">上一页</a>
-						<a  href="ClothesServlet?method=listClothesByPage&page=<%=((PageBean)request.getAttribute("pageBean")).getNextPage()%>&count=8">下一页</a>
-						<a  href="ClothesServlet?method=listClothesByPage&page=<%=((PageBean)request.getAttribute("pageBean")).getAllPages()%>&count=8">尾页</a>
+						<a  href="ClothesServlet?method=listClothesByPage&page=1&count=12" >首页</a>
+						<a  href="ClothesServlet?method=listClothesByPage&page=<%=((PageBean)request.getAttribute("pageBean")).getPreviousPage()%>&count=12">上一页</a>
+						<a  href="ClothesServlet?method=listClothesByPage&page=<%=((PageBean)request.getAttribute("pageBean")).getNextPage()%>&count=12">下一页</a>
+						<a  href="ClothesServlet?method=listClothesByPage&page=<%=((PageBean)request.getAttribute("pageBean")).getAllPages()%>&count=12">尾页</a>
 						
 						当前第<%=((PageBean)request.getAttribute("pageBean")).getNowPage()%>页/总共<%=((PageBean)request.getAttribute("pageBean")).getAllPages()%>页，
 						每页<%=((PageBean)request.getAttribute("pageBean")).getEverPageCount()%>条/总共<%=((PageBean)request.getAttribute("pageBean")).getAllCount()%>条,
@@ -98,9 +102,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<%} %>
 						</div>
 						<!-- 分页结束 -->
-			</div>
 				
 		</div>
+		
+		
 		
 		
 		
@@ -245,7 +250,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="text/javascript">
 			$(document).ready(function(){
 				$("#goto").change(function(){
-					location.href='ClothesServlet?method=listClothesByPage&page='+$(this).val()+'&count=8';//用js发起请求
+					location.href='ClothesServlet?method=listClothesByPage&page='+$(this).val()+'&count=12';//用js发起请求
 				})
 			})
 		</script>

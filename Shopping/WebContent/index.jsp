@@ -113,7 +113,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			} %>
 			
 			</div>	
-			<a href="ClothesServlet?method=listClothesByPage&page=1&count=8">查看更多</a>
+			<a href="ClothesServlet?method=listClothesByPage&page=1&count=12">查看更多</a>
 				
 		</div>
 	</div>

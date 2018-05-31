@@ -37,7 +37,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					
 					<div class="mation">
 					    <span>手机号码</span>
-						<input type="text" id="telnumber" name="tel" onblur="telyanzheng()"> 
+						<input type="text" id="telnumber" name="tel" > 
 						<span id="userExtist"></span>
 						<span>姓名</span>
 						<input type="text" name="userName"> 
@@ -52,9 +52,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						   
 							<div class="mation">
 								<span>密码</span>
-								<input type="password" id="mima" onblur="getpassword()" name="password" style="border: 1px solid #EEE;outline-color:#52D0C4;width: 100%;font-size: 1em;padding: 0.5em;margin: 0.5em 0;">
+								<input type="password" id="mima" name="password" style="border: 1px solid #EEE;outline-color:#52D0C4;width: 100%;font-size: 1em;padding: 0.5em;margin: 0.5em 0;">
+								<span id="usermima"></span>
 								<span>确认密码</span>
-								<input type="password" id="querenmima" onblur="confpassword()" name="confirmpassword" style="border: 1px solid #EEE;outline-color:#52D0C4;width: 100%;font-size: 1em;padding: 0.5em;margin: 0.5em 0;">
+								<input type="password" id="querenmima"  name="confirmpassword" style="border: 1px solid #EEE;outline-color:#52D0C4;width: 100%;font-size: 1em;padding: 0.5em;margin: 0.5em 0;">
+							    <span id="userconfpassword"></span>
 							</div>
 					 </div>
 					 <div class="clearfix"> </div>
@@ -72,14 +74,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--//footer-->
 </body>
 <script>
-  function telyanzheng(){
+  /* function telyanzheng(){
 	  var telnumber=document.getElementById("telnumber").value;
 	  if(telnumber==""){
 		  alert("温馨提示:\r\n手机号不能为空!");
 		}else if(telnumber.length!=11){
 			alert("温馨提示:\r\n手机号格式不正确!");
 		}
-  }
+  } 
   function getpassword(){
 	  var mima=document.getElementById("mima").value;
 	  if(mima==""){
@@ -93,7 +95,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		  alert("温馨提示:\r\n密码不一致!");
 		  alert("昵称："+document.getElementById("nicheng").value);
 		}
-  }
+  }*/
 
 
 </script>
@@ -109,17 +111,51 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 $(document).ready(function(){
 	
 	/**
-	登录用户名检测是否存在的ajax代码
+	注册用户手机号检测是否正确的ajax代码
 	**/
 	$(" [name='tel'] ").blur(function(){
-		$.get("UserServlet?method=checkUserExists&tel="+$(this).val(),function(data,status){
-			if(data=='false'){
-				$("#userExtist").html("<b style='color:green'>√</b>");
-			}else
-			{
-				$("#userExtist").html("<b style='color:red'>该用户已存在</b>");
+		var telnumber=document.getElementById("telnumber").value;
+		  if(telnumber==""){
+			  $("#userExtist").html("<b style='color:red'>手机号不能为空</b>");
+			  $(" [name='tel'] ").focus();
+			}else if(telnumber.length!=11){
+				$("#userExtist").html("<b style='color:red'>手机号格式不正确</b>");
+				$(" [name='tel'] ").focus();
+			}else{
+				$.get("UserServlet?method=checkUserExists&tel="+$(this).val(),function(data,status){
+					if(data=='false'){
+						$("#userExtist").html("<b style='color:green'>√</b>");
+					}else
+					{
+						$("#userExtist").html("<b style='color:red'>该用户已存在</b>");
+						$(" [name='tel'] ").focus();
+					}
+				});
 			}
-		});
+	});
+	
+	/**
+	注册用户密码检测是否正确的ajax代码
+	**/
+	$(" [name='password'] ").blur(function(){
+		var mima=document.getElementById("mima").value;
+		  if(mima==""){
+			  $("#usermima").html("<b style='color:red'>密码不能为空</b>");
+			  $(" [name='password'] ").focus();
+			}else{
+				  $("#usermima").html("<b style='color:green'>√</b>");
+				}
+	});
+	
+	$(" [name='confirmpassword'] ").blur(function(){
+		var mima=document.getElementById("mima").value;
+		  var querenmima=document.getElementById("querenmima").value;
+		  if(mima!=querenmima){
+			  $("#userconfpassword").html("<b style='color:red'>密码不一致</b>");
+			  $(" [name='confirmpassword'] ").focus();
+			}else{
+			  $("#userconfpassword").html("<b style='color:green'>√</b>");
+			}
 	});
 	
 	
